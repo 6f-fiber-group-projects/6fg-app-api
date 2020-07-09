@@ -1,4 +1,4 @@
-package request_entities
+package request_entity
 
 type UserRequest struct {
 	Authority_id int    `json:"auth_id"`

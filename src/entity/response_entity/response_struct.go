@@ -1,4 +1,4 @@
-package response_entities
+package response_entity
 
 type UserResponse struct {
 	Id           int    `json:"id"`

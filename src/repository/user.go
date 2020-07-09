@@ -1,9 +1,9 @@
-package repositories
+package repository
 
 import (
-	menty "6fg-app-api/entities/model_entities"
-	reqenty "6fg-app-api/entities/request_entities"
-	model "6fg-app-api/models"
+	menty "6fg-app-api/entity/model_entity"
+	reqenty "6fg-app-api/entity/request_entity"
+	model "6fg-app-api/model"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"time"

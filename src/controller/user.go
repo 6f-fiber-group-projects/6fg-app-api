@@ -1,10 +1,10 @@
-package controllers
+package controller
 
 import (
-	menty "6fg-app-api/entities/model_entities"
-	reqenty "6fg-app-api/entities/request_entities"
-	resenty "6fg-app-api/entities/response_entities"
-	repo "6fg-app-api/repositories"
+	menty "6fg-app-api/entity/model_entity"
+	reqenty "6fg-app-api/entity/request_entity"
+	resenty "6fg-app-api/entity/response_entity"
+	repo "6fg-app-api/repository"
 	// "fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -107,7 +107,7 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{})
 }
 
-// methods used in user controllers
+// methods used in user controller
 func formatUserResponse(u menty.User) resenty.UserResponse {
 	return resenty.UserResponse{
 		Id:           u.Id,

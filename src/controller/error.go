@@ -1,7 +1,7 @@
-package controllers
+package controller
 
 import (
-	lib "6fg-app-api/libs"
+	"6fg-app-api/lib"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

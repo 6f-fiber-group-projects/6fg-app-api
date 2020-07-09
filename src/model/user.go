@@ -1,7 +1,7 @@
-package models
+package model
 
 import (
-	menty "6fg-app-api/entities/model_entities"
+	menty "6fg-app-api/entity/model_entity"
 	// "fmt"
 )
 

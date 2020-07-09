@@ -1,4 +1,4 @@
-package libs
+package lib
 
 type ErrorWrapper struct {
 	Hash    string
