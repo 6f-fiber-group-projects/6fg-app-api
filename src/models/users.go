@@ -1,24 +1,49 @@
 package models
 
 import (
-	// "golang.org/x/crypto/bcrypt"
 	menty "6fg-app-api/entities/model_entities"
-	"fmt"
+	// "fmt"
 )
 
-func GetAllUsers() {
-
-}
-
-func GetUserById() {
-
-}
-
-func CreateUser(u *menty.User) {
+func GetAllUsers() ([]menty.User, error) {
 	db := gormConnect()
 	defer db.Close()
 
-	err := db.Create(u)
-	fmt.Println(err)
-	// hash, err := bcrypt.GenerateFromPassword([]byte("plain text"), 8)
+	users := []menty.User{}
+	result := db.Find(&users)
+	return users, result.Error
+}
+
+func GetUserById(userId int) (menty.User, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	user := menty.User{}
+	result := db.Find(&user, "id=?", userId)
+	return user, result.Error
+}
+
+func CreateUser(user *menty.User) (menty.User, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	result := db.Create(user)
+	return *user, result.Error
+}
+
+func UpdateUser(u *menty.User) (menty.User, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	user := menty.User{}
+	result := db.Model(&user).Where("id = ?", u.Id).Omit("id", "created_at").Updates(u)
+	return user, result.Error
+}
+
+func DeleteUser(user *menty.User) (menty.User, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	result := db.Delete(user)
+	return *user, result.Error
 }

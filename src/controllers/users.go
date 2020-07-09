@@ -1,11 +1,14 @@
 package controllers
 
 import (
-	renty "6fg-app-api/entities/request_entities"
+	menty "6fg-app-api/entities/model_entities"
+	reqenty "6fg-app-api/entities/request_entities"
+	resenty "6fg-app-api/entities/response_entities"
 	repo "6fg-app-api/repositories"
 	// "fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 // Note that you need to set the corresponding binding tag on all fields you want to bind. For example, when binding from JSON, set json:"fieldname".
@@ -14,30 +17,103 @@ import (
 // As part of GoLang, if either the var's or structs name start uncapitalized, it will be private, that's why neither Go or Gin don't let you access it content.
 // cited from	https://github.com/gin-gonic/gin/issues/149#issuecomment-63179871
 
+// /users
 func GetUsers(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "It works!",
-	})
-}
-
-func CreateUser(c *gin.Context) {
-	user := renty.UserRequest{}
-
-	err := c.BindJSON(&user)
+	users, err := repo.GetAllUsers()
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
-		})
+		ResponseErrorMessage(c, "#S3AB7J44", "No user")
 		return
 	}
 
-	err = repo.CreateUser(&user)
+	formatedUsers := []resenty.UserResponse{}
+	for _, user := range users {
+		formatedUsers = append(formatedUsers, formatUserResponse(user))
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": formatedUsers})
+}
+
+func CreateUser(c *gin.Context) {
+	user := reqenty.UserRequest{}
+	err := c.ShouldBindJSON(&user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to create user",
-		})
+		ResponseErrorMessage(c, "#A3H884KU", "Bad request")
+		return
+	}
+
+	_, err = repo.CreateUser(&user)
+	if err != nil {
+		ResponseErrorMessage(c, "#G9GSLGOH", err.Error())
 		return
 	}
 
 	c.JSON(http.StatusAccepted, gin.H{})
+}
+
+// users/:id
+func GetUserById(c *gin.Context) {
+	userId, err := strconv.Atoi(c.Param("userId"))
+	if err != nil {
+		ResponseErrorMessage(c, "#HQFJFHKK", "User id should be integer")
+		return
+	}
+
+	user, err := repo.GetUserById(userId)
+	if err != nil {
+		ResponseErrorMessage(c, "#COIO4KWD", "No user found")
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": formatUserResponse(user)})
+}
+
+func UpdateUser(c *gin.Context) {
+	user := reqenty.UserUpdateRequest{}
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		ResponseErrorMessage(c, "#K3C1P0FT", "Bad request")
+		return
+	}
+
+	userId, err := strconv.Atoi(c.Param("userId"))
+	if err != nil {
+		ResponseErrorMessage(c, "#257X17LY", "User id should be integer")
+		return
+	}
+	user.Id = userId
+
+	_, err = repo.UpdateUser(&user)
+	if err != nil {
+		ResponseErrorMessage(c, "#COIO4KWD", "No user found")
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{})
+}
+
+func DeleteUser(c *gin.Context) {
+	userId, err := strconv.Atoi(c.Param("userId"))
+	if err != nil {
+		ResponseErrorMessage(c, "#YFJ4Z6V9", "User id should be integer")
+		return
+	}
+
+	_, err = repo.DeleteUser(userId)
+	if err != nil {
+		ResponseErrorMessage(c, "#6L2AO4MR", "No user found")
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{})
+}
+
+// methods used in user controllers
+func formatUserResponse(u menty.User) resenty.UserResponse {
+	return resenty.UserResponse{
+		Id:           u.Id,
+		Authority_id: u.Authority_id,
+		Google_id:    u.Google_id,
+		Name:         u.Name,
+		Email:        u.Email,
+	}
 }

@@ -8,9 +8,14 @@ import (
 func DefineRoutes() *gin.Engine {
 	router := gin.Default()
 
-	// user
-	router.GET("users", controllers.GetUsers)
-	router.POST("users", controllers.CreateUser)
+	users := router.Group("users")
+	{
+		users.GET("/", controllers.GetUsers)
+		users.POST("/", controllers.CreateUser)
+		users.GET("/:userId", controllers.GetUserById)
+		users.PUT("/:userId", controllers.UpdateUser)
+		users.DELETE("/:userId", controllers.DeleteUser)
+	}
 
 	return router
 }
