@@ -23,6 +23,15 @@ func GetUserById(userId int) (menty.User, error) {
 	return user, result.Error
 }
 
+func GetUserByEmail(email string) (menty.User, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	user := menty.User{}
+	result := db.Find(&user, "email=?", email)
+	return user, result.Error
+}
+
 func CreateUser(user *menty.User) (menty.User, error) {
 	db := gormConnect()
 	defer db.Close()

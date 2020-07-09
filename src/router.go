@@ -22,5 +22,10 @@ func DefineRoutes() *gin.Engine {
 		authority.GET("/", controller.GetAuthorities)
 	}
 
+	auth := router.Group("auth")
+	{
+		auth.POST("/", controller.BasicAuthenticate)
+	}
+
 	return router
 }

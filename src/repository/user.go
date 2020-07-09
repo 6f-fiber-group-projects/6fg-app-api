@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const HASHCOST = 8
+
 func GetAllUsers() ([]menty.User, error) {
 	users, err := model.GetAllUsers()
 	if err != nil {
@@ -26,7 +28,7 @@ func GetUserById(userId int) (menty.User, error) {
 }
 
 func CreateUser(u *reqenty.UserRequest) (menty.User, error) {
-	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), 8)
+	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), HASHCOST)
 	user := menty.User{
 		Authority_id: u.Authority_id,
 		Google_id:    u.Google_id,
@@ -42,18 +44,11 @@ func CreateUser(u *reqenty.UserRequest) (menty.User, error) {
 		return menty.User{}, fmt.Errorf("%s", err)
 	}
 
-	// err = bcrypt.CompareHashAndPassword(hash, []byte(u.Password))
-	// if err != nil {
-	// 	fmt.Println("Failure")
-	// } else {
-	// 	fmt.Println("Success")
-	// }
-
 	return user, nil
 }
 
 func UpdateUser(u *reqenty.UserUpdateRequest) (menty.User, error) {
-	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), 8)
+	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), HASHCOST)
 	user := menty.User{
 		Id:           u.Id,
 		Authority_id: u.Authority_id,
