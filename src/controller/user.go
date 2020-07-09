@@ -17,7 +17,7 @@ import (
 // As part of GoLang, if either the var's or structs name start uncapitalized, it will be private, that's why neither Go or Gin don't let you access it content.
 // cited from	https://github.com/gin-gonic/gin/issues/149#issuecomment-63179871
 
-// /users
+// /user
 func GetUsers(c *gin.Context) {
 	users, err := repo.GetAllUsers()
 	if err != nil {
@@ -50,7 +50,7 @@ func CreateUser(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{})
 }
 
-// users/:id
+// user/:id
 func GetUserById(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {

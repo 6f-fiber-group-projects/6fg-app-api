@@ -17,11 +17,10 @@ func DefineRoutes() *gin.Engine {
 		user.DELETE("/:userId", controller.DeleteUser)
 	}
 
-	// authority := router.Group("authority")
-	// {
-	// 	authority.GET("/", controller.GetAuthorities)
-	// 	authority.POST("/", controller.CreateAuthority)
-	// }
+	authority := router.Group("authority")
+	{
+		authority.GET("/", controller.GetAuthorities)
+	}
 
 	return router
 }
