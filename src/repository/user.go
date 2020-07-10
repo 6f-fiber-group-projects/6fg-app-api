@@ -28,42 +28,20 @@ func GetUserById(userId int) (menty.User, error) {
 }
 
 func CreateUser(u *reqenty.UserRequest) (menty.User, error) {
-	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), HASHCOST)
-	user := menty.User{
-		Authority_id: u.Authority_id,
-		Google_id:    u.Google_id,
-		Name:         u.Name,
-		Email:        u.Email,
-		Password:     hash,
-		Created_at:   time.Now(),
-		Updated_at:   time.Now(),
-	}
-
+	user := userReqToModel(u)
 	user, err := model.CreateUser(&user)
 	if err != nil {
 		return menty.User{}, fmt.Errorf("%s", err)
 	}
-
 	return user, nil
 }
 
 func UpdateUser(u *reqenty.UserUpdateRequest) (menty.User, error) {
-	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), HASHCOST)
-	user := menty.User{
-		Id:           u.Id,
-		Authority_id: u.Authority_id,
-		Google_id:    u.Google_id,
-		Name:         u.Name,
-		Email:        u.Email,
-		Password:     hash,
-		Updated_at:   time.Now(),
-	}
-
+	user := userUpdateReqToModel(u)
 	user, err := model.UpdateUser(&user)
 	if err != nil {
 		return menty.User{}, fmt.Errorf("%s", err)
 	}
-
 	return user, nil
 }
 
@@ -79,4 +57,30 @@ func DeleteUser(userId int) (menty.User, error) {
 	}
 
 	return user, nil
+}
+
+func userReqToModel(u *reqenty.UserRequest) menty.User {
+	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), HASHCOST)
+	return menty.User{
+		Authority_id: u.Authority_id,
+		Google_id:    u.Google_id,
+		Name:         u.Name,
+		Email:        u.Email,
+		Password:     hash,
+		Created_at:   time.Now(),
+		Updated_at:   time.Now(),
+	}
+}
+
+func userUpdateReqToModel(u *reqenty.UserUpdateRequest) menty.User {
+	hash, _ := bcrypt.GenerateFromPassword([]byte(u.Password), HASHCOST)
+	return menty.User{
+		Id:           u.Id,
+		Authority_id: u.Authority_id,
+		Google_id:    u.Google_id,
+		Name:         u.Name,
+		Email:        u.Email,
+		Password:     hash,
+		Updated_at:   time.Now(),
+	}
 }

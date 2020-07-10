@@ -27,5 +27,15 @@ func DefineRoutes() *gin.Engine {
 		auth.POST("/", controller.BasicAuthenticate)
 	}
 
+	equip := router.Group("equipment")
+	{
+		equip.GET("/", controller.GetEquipments)
+		equip.POST("/", controller.CreateEquipment)
+		equip.GET("/:equipId", controller.GetEquipmentById)
+		equip.PUT("/:equipId", controller.UpdateEquipment)
+		equip.DELETE("/:equipId", controller.DeleteEquipment)
+		equip.GET("/:equipId/qrcode", controller.GetEquipmentQRcode)
+	}
+
 	return router
 }
