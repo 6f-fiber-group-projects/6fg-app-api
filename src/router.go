@@ -35,6 +35,15 @@ func DefineRoutes() *gin.Engine {
 		equip.PUT("/:equipId", controller.UpdateEquipment)
 		equip.DELETE("/:equipId", controller.DeleteEquipment)
 		equip.GET("/:equipId/qrcode", controller.GetEquipmentQRcode)
+
+	}
+
+	rsvn := router.Group("reservation")
+	{
+		rsvn.PUT("equipment", controller.UpdateEquipmentReservation)
+		rsvn.DELETE("equipment", controller.DeleteEquipmentReservation)
+		rsvn.GET("equipment/:equipId", controller.GetEquipmentReservation)
+		rsvn.POST("equipment/:equipId", controller.CreateEquipmentReservation)
 	}
 
 	return router

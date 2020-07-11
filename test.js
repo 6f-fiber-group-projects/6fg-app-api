@@ -1,3 +1,6 @@
+var now = new Date();
+var future = new Date();
+future.setHours(future.getHours() + 1);
 await fetch("/users", {
 	method: "POST",
 	headers: {

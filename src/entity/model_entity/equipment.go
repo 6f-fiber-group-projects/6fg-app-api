@@ -9,8 +9,8 @@ type Equipment struct {
 	Id         int
 	Name       string
 	Status     int
-	Created_at time.Time
-	Updated_at time.Time
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // set the table name

@@ -8,6 +8,6 @@ import (
 type Authority struct {
 	Id         int
 	Name       string
-	Created_at time.Time
-	Updated_at time.Time
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

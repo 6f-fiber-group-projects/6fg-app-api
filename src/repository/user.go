@@ -67,8 +67,8 @@ func userReqToModel(u *reqenty.UserRequest) menty.User {
 		Name:         u.Name,
 		Email:        u.Email,
 		Password:     hash,
-		Created_at:   time.Now(),
-		Updated_at:   time.Now(),
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
 	}
 }
 
@@ -81,6 +81,6 @@ func userUpdateReqToModel(u *reqenty.UserUpdateRequest) menty.User {
 		Name:         u.Name,
 		Email:        u.Email,
 		Password:     hash,
-		Updated_at:   time.Now(),
+		UpdatedAt:   time.Now(),
 	}
 }

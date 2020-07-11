@@ -54,14 +54,14 @@ func DeleteEquipment(equipId int) (menty.Equipment, error) {
 func equipReqToModel(e *reqenty.EquipmentRequest) menty.Equipment {
 	return menty.Equipment{
 		Name:       e.Name,
-		Created_at: time.Now(),
-		Updated_at: time.Now(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 }
 
 func equipUpdateReqToModel(e *reqenty.EquipmentUpdateRequest) menty.Equipment {
 	return menty.Equipment{
 		Name:       e.Name,
-		Updated_at: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 }

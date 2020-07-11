@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
 ALTER TABLE users
   ADD FOREIGN KEY (authority_id)
       REFERENCES authorities (id)
-      ON UPDATE CASCADE ON DELETE CASCADE;
+      ON DELETE CASCADE;
 
 -- +goose Down
 -- SQL in this section is executed when the migration is rolled back.
