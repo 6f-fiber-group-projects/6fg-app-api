@@ -1,7 +1,6 @@
 package controller
 
 import (
-	menty "6fg-app-api/entity/model_entity"
 	reqenty "6fg-app-api/entity/request_entity"
 	resenty "6fg-app-api/entity/response_entity"
 	repo "6fg-app-api/repository"
@@ -105,15 +104,4 @@ func DeleteUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusAccepted, gin.H{})
-}
-
-// methods used in user controller
-func formatUserResponse(u menty.User) resenty.UserResponse {
-	return resenty.UserResponse{
-		Id:           u.Id,
-		Authority_id: u.Authority_id,
-		Google_id:    u.Google_id,
-		Name:         u.Name,
-		Email:        u.Email,
-	}
 }

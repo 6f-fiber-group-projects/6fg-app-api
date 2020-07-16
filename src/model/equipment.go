@@ -35,7 +35,7 @@ func UpdateEquip(e *menty.Equipment) (menty.Equipment, error) {
 	defer db.Close()
 
 	equip := menty.Equipment{}
-	result := db.Model(&equip).Where("id = ?", e.Id).Omit("id", "created_at").Updates(e)
+	result := db.Model(&equip).Where("id=?", e.Id).Omit("id", "created_at").Updates(e)
 	return equip, result.Error
 }
 

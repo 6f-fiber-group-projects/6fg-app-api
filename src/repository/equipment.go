@@ -35,6 +35,7 @@ func CreateEquipment(e *reqenty.EquipmentRequest) (menty.Equipment, error) {
 
 func UpdateEquipment(e *reqenty.EquipmentUpdateRequest) (menty.Equipment, error) {
 	equip := equipUpdateReqToModel(e)
+
 	_, err := model.UpdateEquip(&equip)
 	if err != nil {
 		return menty.Equipment{}, fmt.Errorf("%s", err)
@@ -53,7 +54,7 @@ func DeleteEquipment(equipId int) (menty.Equipment, error) {
 
 func equipReqToModel(e *reqenty.EquipmentRequest) menty.Equipment {
 	return menty.Equipment{
-		Name:       e.Name,
+		Name:      e.Name,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -61,7 +62,9 @@ func equipReqToModel(e *reqenty.EquipmentRequest) menty.Equipment {
 
 func equipUpdateReqToModel(e *reqenty.EquipmentUpdateRequest) menty.Equipment {
 	return menty.Equipment{
-		Name:       e.Name,
+		Id:        e.Id,
+		Name:      e.Name,
+		Status:    &e.Status,
 		UpdatedAt: time.Now(),
 	}
 }

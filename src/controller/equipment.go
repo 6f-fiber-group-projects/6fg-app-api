@@ -2,16 +2,16 @@ package controller
 
 import (
 	bl "6fg-app-api/businessLogic"
-	menty "6fg-app-api/entity/model_entity"
 	reqenty "6fg-app-api/entity/request_entity"
 	resenty "6fg-app-api/entity/response_entity"
 	repo "6fg-app-api/repository"
-	// "fmt"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
 
+// equipment
 func GetEquipments(c *gin.Context) {
 	equips, err := repo.GetAllEquipments()
 	if err != nil {
@@ -94,8 +94,6 @@ func DeleteEquipment(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{})
 }
 
-// equipment/reservation
-
 // equipment/:equipId/qrcode
 
 func GetEquipmentQRcode(c *gin.Context) {
@@ -114,85 +112,29 @@ func GetEquipmentQRcode(c *gin.Context) {
 	c.Data(http.StatusOK, "image/png", qr)
 }
 
-// equipmend/:equipId/reservation
+// equipment/:equipId/status
 
-func UpdateEquipmentReservation(c *gin.Context) {
-	rsvn := reqenty.EquipmentReservationUpdateRequest{}
-	err := c.ShouldBindJSON(&rsvn)
-	if err != nil {
-		ResponseErrorMessage(c, "#Y3VE6O9R", "Bad request")
-		return
-	}
-
-	_, err = repo.UpdateEquipmentReservation(&rsvn)
-	if err != nil {
-		ResponseErrorMessage(c, "#WVNAN2JV", err.Error())
-		return
-	}
-
-	c.JSON(http.StatusAccepted, gin.H{})
-}
-
-func DeleteEquipmentReservation(c *gin.Context) {
-	rsvn := reqenty.EquipmentReservationDeleteRequest{}
-	err := c.ShouldBindJSON(&rsvn)
-	if err != nil {
-		ResponseErrorMessage(c, "#I7NB8UY2", "Bad request")
-		return
-	}
-
-	_, err = repo.DeleteEquipmentReservation(&rsvn)
-	if err != nil {
-		ResponseErrorMessage(c, "#37MWJFMZ", err.Error())
-		return
-	}
-
-	c.JSON(http.StatusAccepted, gin.H{})
-}
-
-func GetEquipmentReservation(c *gin.Context) {
+func UpdateEquipmentStatus(c *gin.Context) {
 	equipId, err := strconv.Atoi(c.Param("equipId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#OHGXQ7XW", "Equip id shoud be integer")
+		ResponseErrorMessage(c, "#", "Equip id shoud be integer")
 		return
 	}
 
-	rsvns, err := repo.GetEquipmentReservationByEquipId(equipId)
+	equipHistory := reqenty.EquipmentHistoryRequest{}
+	err = c.ShouldBindJSON(&equipHistory)
 	if err != nil {
-		ResponseErrorMessage(c, "#678EZ5VD", err.Error())
+		ResponseErrorMessage(c, "#", "Bad request")
 		return
 	}
+	equipHistory.EquipId = equipId
+	fmt.Printf("%#v", equipHistory)
 
-	c.JSON(http.StatusAccepted, gin.H{"message": rsvns})
-}
-
-func CreateEquipmentReservation(c *gin.Context) {
-	equipId, err := strconv.Atoi(c.Param("equipId"))
+	err = bl.UpdateEquipmentStatus(&equipHistory)
 	if err != nil {
-		ResponseErrorMessage(c, "#XOQ0B093", "Equip id shoud be integer")
-		return
-	}
-
-	rsvn := reqenty.EquipmentReservationRequest{}
-	err = c.ShouldBindJSON(&rsvn)
-	if err != nil {
-		ResponseErrorMessage(c, "#UB3N0VYD", err.Error())
-		return
-	}
-	rsvn.EquipId = equipId
-
-	err = bl.ReserveEquip(&rsvn)
-	if err != nil {
-		ResponseErrorMessage(c, "#0R8INES3", err.Error())
+		ResponseErrorMessage(c, "#", err.Error())
 		return
 	}
 
 	c.JSON(http.StatusAccepted, gin.H{})
-}
-
-func formatEquipmentResponse(e menty.Equipment) resenty.EquipmentResponse {
-	return resenty.EquipmentResponse{
-		Id:   e.Id,
-		Name: e.Name,
-	}
 }
