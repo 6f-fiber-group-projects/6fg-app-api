@@ -24,7 +24,7 @@ func formatEquipmentResponse(e menty.Equipment) resenty.EquipmentResponse {
 	}
 }
 
-//auth
+//authority
 func formatAuthorityResponse(a menty.Authority) resenty.AuthorityResponse {
 	return resenty.AuthorityResponse{
 		Id:   a.Id,
