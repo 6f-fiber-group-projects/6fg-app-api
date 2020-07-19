@@ -13,6 +13,12 @@ func GetAllEquipments() ([]menty.Equipment, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%s", err)
 	}
+
+	for idx, equip := range equips {
+		if result := equip.StatusNilTozero(); result != nil {
+			equips[idx] = *result
+		}
+	}
 	return equips, nil
 }
 
@@ -21,6 +27,11 @@ func GetEquipmentById(equipId int) (menty.Equipment, error) {
 	if err != nil {
 		return menty.Equipment{}, fmt.Errorf("%s", err)
 	}
+
+	if result := equip.StatusNilTozero(); result != nil {
+		equip = *result
+	}
+
 	return equip, nil
 }
 
@@ -53,8 +64,10 @@ func DeleteEquipment(equipId int) (menty.Equipment, error) {
 }
 
 func equipReqToModel(e *reqenty.EquipmentRequest) menty.Equipment {
+	zero := 0
 	return menty.Equipment{
 		Name:      e.Name,
+		Status:    &zero,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}

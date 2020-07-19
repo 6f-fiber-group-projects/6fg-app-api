@@ -5,7 +5,7 @@ import (
 	reqenty "6fg-app-api/entity/request_entity"
 	resenty "6fg-app-api/entity/response_entity"
 	repo "6fg-app-api/repository"
-	"fmt"
+	// "fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -62,12 +62,19 @@ func GetEquipmentById(c *gin.Context) {
 }
 
 func UpdateEquipment(c *gin.Context) {
+	equipId, err := strconv.Atoi(c.Param("equipId"))
+	if err != nil {
+		ResponseErrorMessage(c, "#", "Equip id shoud be integer")
+		return
+	}
+
 	equip := reqenty.EquipmentUpdateRequest{}
-	err := c.ShouldBindJSON(&equip)
+	err = c.ShouldBindJSON(&equip)
 	if err != nil {
 		ResponseErrorMessage(c, "#W0WAVEGS", "Bad request")
 		return
 	}
+	equip.Id = equipId
 
 	_, err = repo.UpdateEquipment(&equip)
 	if err != nil {
@@ -128,7 +135,6 @@ func UpdateEquipmentStatus(c *gin.Context) {
 		return
 	}
 	equipHistory.EquipId = equipId
-	fmt.Printf("%#v", equipHistory)
 
 	err = bl.UpdateEquipmentStatus(&equipHistory)
 	if err != nil {

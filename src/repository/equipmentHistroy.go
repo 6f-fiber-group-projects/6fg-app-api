@@ -8,9 +8,16 @@ import (
 	"time"
 )
 
+func GetLatestEquipmentHistoryByEquipId(equipId int) (menty.EquipmentHistory, error) {
+	equipHistory, err := model.GetLatestEquipmentHistoryByEquipId(equipId)
+	if err != nil {
+		return menty.EquipmentHistory{}, fmt.Errorf("%s", err)
+	}
+	return equipHistory, nil
+}
+
 func CreateEquipmentHistory(e *reqenty.EquipmentHistoryRequest) (menty.EquipmentHistory, error) {
 	equipHistory, err := equipHistoryReqToModel(e)
-	fmt.Printf("%#v", equipHistory)
 	_, err = model.CreateEquipHistory(&equipHistory)
 	if err != nil {
 		return menty.EquipmentHistory{}, fmt.Errorf("%s", err)
@@ -18,10 +25,9 @@ func CreateEquipmentHistory(e *reqenty.EquipmentHistoryRequest) (menty.Equipment
 	return equipHistory, nil
 }
 
-func UpdateEquipmentHistory(e *reqenty.EquipmentHistoryRequest) (menty.EquipmentHistory, error) {
+func UpdateEquipmentHistory(e *reqenty.EquipmentHistoryUpdateRequest) (menty.EquipmentHistory, error) {
 	equipHistory, err := equipHistoryUpdateReqToModel(e)
-	fmt.Printf("%#v", equipHistory)
-	_, err = model.UpdateEquipHistoryByEquipId(&equipHistory)
+	_, err = model.UpdateEquipHistory(&equipHistory)
 	if err != nil {
 		return menty.EquipmentHistory{}, fmt.Errorf("%s", err)
 	}
@@ -39,16 +45,13 @@ func equipHistoryReqToModel(e *reqenty.EquipmentHistoryRequest) (menty.Equipment
 	}, nil
 }
 
-func equipHistoryUpdateReqToModel(e *reqenty.EquipmentHistoryRequest) (menty.EquipmentHistory, error) {
-	_, endDate, err := parseTime(e.StartDate, e.EndDate)
-	if err != nil {
-		endDate = time.Now()
-	}
+func equipHistoryUpdateReqToModel(e *reqenty.EquipmentHistoryUpdateRequest) (menty.EquipmentHistory, error) {
 	return menty.EquipmentHistory{
+		Id:            e.Id,
 		EquipId:       e.EquipId,
 		UserId:        e.UserId,
 		ReservationId: e.ReservationId,
-		EndDate:       endDate,
+		EndDate:       time.Now(),
 		UpdatedAt:     time.Now(),
 	}, nil
 }

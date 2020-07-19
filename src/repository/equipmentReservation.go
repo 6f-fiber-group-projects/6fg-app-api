@@ -10,12 +10,12 @@ import (
 
 const TIME_LAYOUT = time.RFC3339Nano
 
-func GetEquipmentReservationByEquipId(equipId int) ([]menty.EquipmentReservation, error) {
-	rsvns, err := model.GetEquipmentReservationByEquipId(equipId)
+func GetEquipmentReservationById(id int) (menty.EquipmentReservation, error) {
+	rsvn, err := model.GetEquipmentReservationById(id)
 	if err != nil {
-		return nil, err
+		return menty.EquipmentReservation{}, err
 	}
-	return rsvns, nil
+	return rsvn, nil
 }
 
 func CreateEquipmentReservation(r *reqenty.EquipmentReservationRequest) (menty.EquipmentReservation, error) {
@@ -46,8 +46,8 @@ func UpdateEquipmentReservation(r *reqenty.EquipmentReservationUpdateRequest) (m
 	return rsvn, nil
 }
 
-func DeleteEquipmentReservation(r *reqenty.EquipmentReservationDeleteRequest) (menty.EquipmentReservation, error) {
-	rsvn, err := model.GetEquipmentReservationById(r.Id)
+func DeleteEquipmentReservation(id int) (menty.EquipmentReservation, error) {
+	rsvn, err := model.GetEquipmentReservationById(id)
 	if err != nil {
 		return menty.EquipmentReservation{}, fmt.Errorf("%s", err)
 	}

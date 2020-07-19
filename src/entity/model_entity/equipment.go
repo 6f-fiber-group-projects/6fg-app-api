@@ -17,3 +17,17 @@ type Equipment struct {
 func (Equipment) TableName() string {
 	return "equipments"
 }
+
+func (e *Equipment) StatusNilTozero() *Equipment {
+	if e.Status == nil {
+		zero := 0
+		return &Equipment{
+			Id:        e.Id,
+			Name:      e.Name,
+			Status:    &zero,
+			CreatedAt: e.CreatedAt,
+			UpdatedAt: e.UpdatedAt,
+		}
+	}
+	return nil
+}

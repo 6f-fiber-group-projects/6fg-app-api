@@ -6,6 +6,6 @@ type EquipmentRequest struct {
 
 type EquipmentUpdateRequest struct {
 	*EquipmentRequest
-	Id     int `json:"id" binding:"required"`
+	Id     int `json:"id"`
 	Status int `json:"id`
 }

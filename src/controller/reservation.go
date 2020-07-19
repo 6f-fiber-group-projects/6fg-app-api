@@ -11,12 +11,19 @@ import (
 )
 
 func UpdateEquipmentReservation(c *gin.Context) {
+	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
+	if err != nil {
+		ResponseErrorMessage(c, "#", "Reservation id shoud be integer")
+		return
+	}
+
 	rsvn := reqenty.EquipmentReservationUpdateRequest{}
-	err := c.ShouldBindJSON(&rsvn)
+	err = c.ShouldBindJSON(&rsvn)
 	if err != nil {
 		ResponseErrorMessage(c, "#Y3VE6O9R", "Bad request")
 		return
 	}
+	rsvn.Id = rsvnId
 
 	_, err = repo.UpdateEquipmentReservation(&rsvn)
 	if err != nil {
@@ -28,14 +35,13 @@ func UpdateEquipmentReservation(c *gin.Context) {
 }
 
 func DeleteEquipmentReservation(c *gin.Context) {
-	rsvn := reqenty.EquipmentReservationDeleteRequest{}
-	err := c.ShouldBindJSON(&rsvn)
+	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#I7NB8UY2", "Bad request")
+		ResponseErrorMessage(c, "#I7NB8UY2", "Reservation id shoud be integer")
 		return
 	}
 
-	_, err = repo.DeleteEquipmentReservation(&rsvn)
+	_, err = repo.DeleteEquipmentReservation(rsvnId)
 	if err != nil {
 		ResponseErrorMessage(c, "#37MWJFMZ", err.Error())
 		return
@@ -45,35 +51,28 @@ func DeleteEquipmentReservation(c *gin.Context) {
 }
 
 func GetEquipmentReservation(c *gin.Context) {
-	equipId, err := strconv.Atoi(c.Param("equipId"))
+	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#OHGXQ7XW", "Equip id shoud be integer")
+		ResponseErrorMessage(c, "#OHGXQ7XW", "Reservation id shoud be integer")
 		return
 	}
 
-	rsvns, err := repo.GetEquipmentReservationByEquipId(equipId)
+	rsvn, err := repo.GetEquipmentReservationById(rsvnId)
 	if err != nil {
 		ResponseErrorMessage(c, "#678EZ5VD", err.Error())
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{"message": rsvns})
+	c.JSON(http.StatusAccepted, gin.H{"message": rsvn})
 }
 
 func CreateEquipmentReservation(c *gin.Context) {
-	equipId, err := strconv.Atoi(c.Param("equipId"))
-	if err != nil {
-		ResponseErrorMessage(c, "#XOQ0B093", "Equip id shoud be integer")
-		return
-	}
-
 	rsvn := reqenty.EquipmentReservationRequest{}
-	err = c.ShouldBindJSON(&rsvn)
+	err := c.ShouldBindJSON(&rsvn)
 	if err != nil {
 		ResponseErrorMessage(c, "#UB3N0VYD", err.Error())
 		return
 	}
-	rsvn.EquipId = equipId
 
 	err = bl.ReserveEquip(&rsvn)
 	if err != nil {

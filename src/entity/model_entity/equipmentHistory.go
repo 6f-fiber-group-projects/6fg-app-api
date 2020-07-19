@@ -5,7 +5,7 @@ import (
 )
 
 type EquipmentHistory struct {
-	Id            *int
+	Id            int
 	EquipId       int
 	UserId        int
 	ReservationId *int

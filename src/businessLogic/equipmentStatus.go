@@ -20,15 +20,30 @@ func UpdateEquipmentStatus(r *reqenty.EquipmentHistoryRequest) error {
 		return fmt.Errorf("No equipment was found (id: %d)", r.EquipId)
 	}
 
+	// validate reservation
+	if r.ReservationId != nil {
+		_, err = repo.GetEquipmentReservationById(*r.ReservationId)
+		if err != nil {
+			return fmt.Errorf("No reservation was found (id: %d)", *r.ReservationId)
+		}
+	}
+
 	// check equip_sataus and update current history to end
-	equipUpdate := equipHistroyModelToReq(&equip)
+	equipUpdate := equipModelToReq(&equip)
 	if r.EquipStatus == 0 || *equip.Status == 1 {
 		equipUpdate.Status = 0
 		_, err = repo.UpdateEquipment(&equipUpdate)
 		if err != nil {
 			return fmt.Errorf("%s", err)
 		}
-		_, err = repo.UpdateEquipmentHistory(r)
+
+		currentEquipHistroy, err := repo.GetLatestEquipmentHistoryByEquipId(equip.Id)
+		if err != nil {
+			return fmt.Errorf("%s", err)
+		}
+		currentEquipHistroyUpdate := equipHistroyModelToReq(&currentEquipHistroy)
+
+		_, err = repo.UpdateEquipmentHistory(&currentEquipHistroyUpdate)
 		if err != nil {
 			return fmt.Errorf("%s", err)
 		}
@@ -50,12 +65,23 @@ func UpdateEquipmentStatus(r *reqenty.EquipmentHistoryRequest) error {
 	return nil
 }
 
-func equipHistroyModelToReq(e *menty.Equipment) reqenty.EquipmentUpdateRequest {
+func equipModelToReq(e *menty.Equipment) reqenty.EquipmentUpdateRequest {
 	return reqenty.EquipmentUpdateRequest{
 		Id:     e.Id,
 		Status: *e.Status,
 		EquipmentRequest: &reqenty.EquipmentRequest{
 			Name: e.Name,
+		},
+	}
+}
+
+func equipHistroyModelToReq(e *menty.EquipmentHistory) reqenty.EquipmentHistoryUpdateRequest {
+	return reqenty.EquipmentHistoryUpdateRequest{
+		Id: e.Id,
+		EquipmentHistoryRequest: &reqenty.EquipmentHistoryRequest{
+			EquipId:       e.EquipId,
+			UserId:        e.UserId,
+			ReservationId: e.ReservationId,
 		},
 	}
 }
