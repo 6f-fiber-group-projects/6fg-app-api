@@ -4,10 +4,10 @@ services:
   api:
     build:
       context: .
-      dockerfile: docker/Dockerfile.go.dev
+      dockerfile: Dockerfile.dev
     tty: true
     volumes:
-      - ./src:/go/src/work
+      - ./src:/go/src/github.com/6f-fiber-group-projects/6fg-app-api
     ports: 
       - 8080:8080
     environment:
