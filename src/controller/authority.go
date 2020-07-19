@@ -1,8 +1,8 @@
 package controller
 
 import (
-	resenty "6fg-app-api/entity/response_entity"
-	repo "6fg-app-api/repository"
+	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
+	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

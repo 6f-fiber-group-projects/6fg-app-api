@@ -1,7 +1,7 @@
 package model
 
 import (
-	menty "6fg-app-api/entity/model_entity"
+	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 )
 
 func GetLatestEquipmentHistoryByEquipId(equipId int) (menty.EquipmentHistory, error) {

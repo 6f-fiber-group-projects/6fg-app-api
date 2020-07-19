@@ -1,8 +1,8 @@
 package controller
 
 import (
-	menty "6fg-app-api/entity/model_entity"
-	resenty "6fg-app-api/entity/response_entity"
+	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
+	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
 	"fmt"
 )
 

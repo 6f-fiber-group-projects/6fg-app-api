@@ -1,7 +1,7 @@
 package main
 
 import (
-	"6fg-app-api/controller"
+	"github.com/6f-fiber-group-projects/6fg-app-api/controller"
 	"github.com/gin-gonic/gin"
 )
 

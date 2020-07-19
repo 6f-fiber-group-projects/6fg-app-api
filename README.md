@@ -1,4 +1,4 @@
-# 6fg-app-api
+# github.com/6f-fiber-group-projects/6fg-app-api
 
 ## migration
 * dev

@@ -1,8 +1,8 @@
 package businessLogic
 
 import (
-	reqenty "6fg-app-api/entity/request_entity"
-	repo "6fg-app-api/repository"
+	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
+	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
 	"fmt"
 )
 

@@ -1,4 +1,4 @@
-module 6fg-app-api
+module github.com/6f-fiber-group-projects/6fg-app-api
 
 go 1.14
 

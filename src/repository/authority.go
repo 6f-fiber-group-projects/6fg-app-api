@@ -1,8 +1,8 @@
 package repository
 
 import (
-	menty "6fg-app-api/entity/model_entity"
-	model "6fg-app-api/model"
+	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
+	model "github.com/6f-fiber-group-projects/6fg-app-api/model"
 	"fmt"
 )
 

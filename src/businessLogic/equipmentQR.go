@@ -1,7 +1,7 @@
 package businessLogic
 
 import (
-	"6fg-app-api/lib"
+	"github.com/6f-fiber-group-projects/6fg-app-api/lib"
 	"fmt"
 	"os"
 )
