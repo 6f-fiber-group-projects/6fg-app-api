@@ -2,6 +2,6 @@ FROM golang:latest
 
 ENV GO111MODULE=on
 
-RUN mkdir /go/src/work
+RUN mkdir -p /go/src/github.com/6f-fiber-group-projects/6fg-app-api
 
-WORKDIR /go/src/work
+WORKDIR /go/src/github.com/6f-fiber-group-projects/6fg-app-api
