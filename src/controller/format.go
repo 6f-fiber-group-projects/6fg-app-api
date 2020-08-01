@@ -3,7 +3,6 @@ package controller
 import (
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
-	"fmt"
 )
 
 // user
@@ -19,7 +18,6 @@ func formatUserResponse(u menty.User) resenty.UserResponse {
 
 // equipment
 func formatEquipmentResponse(e menty.Equipment) resenty.EquipmentResponse {
-	fmt.Printf("%#v", e.Status)
 	return resenty.EquipmentResponse{
 		Id:     e.Id,
 		Name:   e.Name,
