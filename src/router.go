@@ -5,7 +5,6 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func DefineRoutes() *gin.Engine {
@@ -63,7 +62,7 @@ func sessionCheck() gin.HandlerFunc {
 		session := sessions.Default(c)
 		isLogin := session.Get("isLogin")
 		if isLogin != true && c.FullPath() != "/auth/" {
-			controller.ResponseUnauthrizedMessage(c)
+			controller.ResponseUnauthorizedMessage(c)
 			c.Abort()
 		}
 		c.Next()

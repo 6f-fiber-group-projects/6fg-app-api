@@ -11,6 +11,6 @@ func ResponseServerErrorMessage(c *gin.Context, hash, msg string) {
 	c.JSON(http.StatusInternalServerError, gin.H{"error": fe.Error()})
 }
 
-func ResponseUnauthrizedMessage(c *gin.Context) {
+func ResponseUnauthorizedMessage(c *gin.Context) {
 	c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 }

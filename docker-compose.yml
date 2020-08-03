@@ -17,6 +17,8 @@ services:
       DB_PORT: 5432
       DB_HOST: db
       DOMEIN: "http://localhost:8080"
+      ADMIN_ID: 1
+      VIEWER_ID: 3
 
   db:
     image: postgres

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	bl "github.com/6f-fiber-group-projects/6fg-app-api/businessLogic"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
@@ -20,14 +19,14 @@ import (
 
 // /user
 func GetUsers(c *gin.Context) {
-	users, err := repo.GetAllUsers()
+	users, err := bl.GetAllUsers(c)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#S3AB7J44", "No user")
 		return
 	}
 
 	formatedUsers := []resenty.UserResponse{}
-	for _, user := range users {
+	for _, user := range *users {
 		formatedUsers = append(formatedUsers, formatUserResponse(user))
 	}
 
@@ -60,19 +59,13 @@ func GetUserById(c *gin.Context) {
 		return
 	}
 
-	if !bl.IsAdmin(c) && !bl.IsSameUser(c, userId) {
-
-	}
-	fmt.Println(bl.IsAdmin(c))
-	fmt.Println(bl.IsSameUser(c, userId))
-
-	user, err := repo.GetUserById(userId)
+	user, err := bl.GetUserById(c, userId)
 	if err != nil {
-		ResponseServerErrorMessage(c, "#COIO4KWD", "No user found")
+		ResponseServerErrorMessage(c, "#COIO4KWD", err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": formatUserResponse(user)})
+	c.JSON(http.StatusOK, gin.H{"message": formatUserResponse(*user)})
 }
 
 func UpdateUser(c *gin.Context) {
@@ -90,9 +83,9 @@ func UpdateUser(c *gin.Context) {
 	}
 	user.Id = userId
 
-	_, err = repo.UpdateUser(&user)
+	_, err = bl.UpdateUser(c, &user)
 	if err != nil {
-		ResponseServerErrorMessage(c, "#COIO4KWD", "No user found")
+		ResponseServerErrorMessage(c, "#COIO4KWD", err.Error())
 		return
 	}
 
@@ -103,6 +96,11 @@ func DeleteUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
 		ResponseServerErrorMessage(c, "#YFJ4Z6V9", "User id should be integer")
+		return
+	}
+
+	if !bl.IsAdmin(c) && !bl.IsSameUser(c, userId) {
+		ResponseUnauthorizedMessage(c)
 		return
 	}
 
