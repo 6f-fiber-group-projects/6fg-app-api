@@ -13,21 +13,21 @@ import (
 func UpdateEquipmentReservation(c *gin.Context) {
 	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#", "Reservation id shoud be integer")
+		ResponseServerErrorMessage(c, "#", "Reservation id shoud be integer")
 		return
 	}
 
 	rsvn := reqenty.EquipmentReservationUpdateRequest{}
 	err = c.ShouldBindJSON(&rsvn)
 	if err != nil {
-		ResponseErrorMessage(c, "#Y3VE6O9R", "Bad request")
+		ResponseServerErrorMessage(c, "#Y3VE6O9R", "Bad request")
 		return
 	}
 	rsvn.Id = rsvnId
 
 	_, err = repo.UpdateEquipmentReservation(&rsvn)
 	if err != nil {
-		ResponseErrorMessage(c, "#WVNAN2JV", err.Error())
+		ResponseServerErrorMessage(c, "#WVNAN2JV", err.Error())
 		return
 	}
 
@@ -37,13 +37,13 @@ func UpdateEquipmentReservation(c *gin.Context) {
 func DeleteEquipmentReservation(c *gin.Context) {
 	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#I7NB8UY2", "Reservation id shoud be integer")
+		ResponseServerErrorMessage(c, "#I7NB8UY2", "Reservation id shoud be integer")
 		return
 	}
 
 	_, err = repo.DeleteEquipmentReservation(rsvnId)
 	if err != nil {
-		ResponseErrorMessage(c, "#37MWJFMZ", err.Error())
+		ResponseServerErrorMessage(c, "#37MWJFMZ", err.Error())
 		return
 	}
 
@@ -53,13 +53,13 @@ func DeleteEquipmentReservation(c *gin.Context) {
 func GetEquipmentReservation(c *gin.Context) {
 	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#OHGXQ7XW", "Reservation id shoud be integer")
+		ResponseServerErrorMessage(c, "#OHGXQ7XW", "Reservation id shoud be integer")
 		return
 	}
 
 	rsvn, err := repo.GetEquipmentReservationById(rsvnId)
 	if err != nil {
-		ResponseErrorMessage(c, "#678EZ5VD", err.Error())
+		ResponseServerErrorMessage(c, "#678EZ5VD", err.Error())
 		return
 	}
 
@@ -70,13 +70,13 @@ func CreateEquipmentReservation(c *gin.Context) {
 	rsvn := reqenty.EquipmentReservationRequest{}
 	err := c.ShouldBindJSON(&rsvn)
 	if err != nil {
-		ResponseErrorMessage(c, "#UB3N0VYD", err.Error())
+		ResponseServerErrorMessage(c, "#UB3N0VYD", err.Error())
 		return
 	}
 
 	err = bl.ReserveEquip(&rsvn)
 	if err != nil {
-		ResponseErrorMessage(c, "#0R8INES3", err.Error())
+		ResponseServerErrorMessage(c, "#0R8INES3", err.Error())
 		return
 	}
 

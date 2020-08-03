@@ -11,7 +11,7 @@ import (
 func GetAuthorities(c *gin.Context) {
 	auths, err := repo.GetAllAuthorities()
 	if err != nil {
-		ResponseErrorMessage(c, "#QHPNLFVA", "No authority")
+		ResponseServerErrorMessage(c, "#QHPNLFVA", "No authority")
 		return
 	}
 

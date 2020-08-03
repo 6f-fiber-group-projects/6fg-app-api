@@ -63,7 +63,7 @@ func sessionCheck() gin.HandlerFunc {
 		session := sessions.Default(c)
 		isLogin := session.Get("isLogin")
 		if isLogin != true && c.FullPath() != "/auth/" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+			controller.ResponseUnauthrizedMessage(c)
 			c.Abort()
 		}
 		c.Next()

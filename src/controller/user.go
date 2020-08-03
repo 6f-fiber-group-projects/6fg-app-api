@@ -1,12 +1,14 @@
 package controller
 
 import (
+	"fmt"
+	bl "github.com/6f-fiber-group-projects/6fg-app-api/businessLogic"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
 	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
-	// "fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -20,7 +22,7 @@ import (
 func GetUsers(c *gin.Context) {
 	users, err := repo.GetAllUsers()
 	if err != nil {
-		ResponseErrorMessage(c, "#S3AB7J44", "No user")
+		ResponseServerErrorMessage(c, "#S3AB7J44", "No user")
 		return
 	}
 
@@ -36,13 +38,14 @@ func CreateUser(c *gin.Context) {
 	user := reqenty.UserRequest{}
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
-		ResponseErrorMessage(c, "#A3H884KU", "Bad request")
+		ResponseServerErrorMessage(c, "#A3H884KU", "Bad request")
 		return
 	}
+	user.Authority_id, _ = strconv.Atoi(os.Getenv("VIEWER_ID"))
 
 	_, err = repo.CreateUser(&user)
 	if err != nil {
-		ResponseErrorMessage(c, "#G9GSLGOH", err.Error())
+		ResponseServerErrorMessage(c, "#G9GSLGOH", err.Error())
 		return
 	}
 
@@ -53,13 +56,19 @@ func CreateUser(c *gin.Context) {
 func GetUserById(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#HQFJFHKK", "User id should be integer")
+		ResponseServerErrorMessage(c, "#HQFJFHKK", "User id should be integer")
 		return
 	}
 
+	if !bl.IsAdmin(c) && !bl.IsSameUser(c, userId) {
+
+	}
+	fmt.Println(bl.IsAdmin(c))
+	fmt.Println(bl.IsSameUser(c, userId))
+
 	user, err := repo.GetUserById(userId)
 	if err != nil {
-		ResponseErrorMessage(c, "#COIO4KWD", "No user found")
+		ResponseServerErrorMessage(c, "#COIO4KWD", "No user found")
 		return
 	}
 
@@ -70,20 +79,20 @@ func UpdateUser(c *gin.Context) {
 	user := reqenty.UserUpdateRequest{}
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
-		ResponseErrorMessage(c, "#K3C1P0FT", "Bad request")
+		ResponseServerErrorMessage(c, "#K3C1P0FT", "Bad request")
 		return
 	}
 
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#257X17LY", "User id should be integer")
+		ResponseServerErrorMessage(c, "#257X17LY", "User id should be integer")
 		return
 	}
 	user.Id = userId
 
 	_, err = repo.UpdateUser(&user)
 	if err != nil {
-		ResponseErrorMessage(c, "#COIO4KWD", "No user found")
+		ResponseServerErrorMessage(c, "#COIO4KWD", "No user found")
 		return
 	}
 
@@ -93,13 +102,13 @@ func UpdateUser(c *gin.Context) {
 func DeleteUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#YFJ4Z6V9", "User id should be integer")
+		ResponseServerErrorMessage(c, "#YFJ4Z6V9", "User id should be integer")
 		return
 	}
 
 	_, err = repo.DeleteUser(userId)
 	if err != nil {
-		ResponseErrorMessage(c, "#6L2AO4MR", "No user found")
+		ResponseServerErrorMessage(c, "#6L2AO4MR", "No user found")
 		return
 	}
 
