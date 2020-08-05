@@ -21,7 +21,7 @@ import (
 func GetUsers(c *gin.Context) {
 	users, err := bl.GetAllUsers(c)
 	if err != nil {
-		ResponseServerErrorMessage(c, "#S3AB7J44", "No user")
+		ResponseServerErrorMessage(c, "#S3AB7J44", err.Error())
 		return
 	}
 
@@ -99,14 +99,9 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 
-	if !bl.IsAdmin(c) && !bl.IsSameUser(c, userId) {
-		ResponseUnauthorizedMessage(c)
-		return
-	}
-
-	_, err = repo.DeleteUser(userId)
+	_, err = bl.DeleteUser(c, userId)
 	if err != nil {
-		ResponseServerErrorMessage(c, "#6L2AO4MR", "No user found")
+		ResponseServerErrorMessage(c, "#6L2AO4MR", err.Error())
 		return
 	}
 

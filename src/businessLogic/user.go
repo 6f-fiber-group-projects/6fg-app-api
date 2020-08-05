@@ -15,7 +15,7 @@ func GetAllUsers(c *gin.Context) (*[]menty.User, error) {
 
 	users, err := repo.GetAllUsers()
 	if err != nil {
-		return nil, fmt.Errorf("unauthorized")
+		return nil, fmt.Errorf("No user")
 	}
 
 	return &users, nil
@@ -65,6 +65,10 @@ func DeleteUser(c *gin.Context, userId int) (*menty.User, error) {
 	user, err := repo.DeleteUser(userId)
 	if err != nil {
 		return nil, err
+	}
+
+	if IsSameUser(c, userId) {
+		KillSession(c)
 	}
 
 	return &user, nil
