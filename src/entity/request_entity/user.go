@@ -9,6 +9,10 @@ type UserRequest struct {
 }
 
 type UserUpdateRequest struct {
-	*UserRequest
-	Id int `json:"id"`
+	Authority_id int    `json:"auth_id"`
+	Google_id    *int   `json:"google_id default=nil"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	Password     string `json:"password""`
+	Id           int    `json:"id"`
 }

@@ -6,7 +6,11 @@ import (
 	"net/http"
 )
 
-func ResponseErrorMessage(c *gin.Context, hash, msg string) {
+func ResponseServerErrorMessage(c *gin.Context, hash, msg string) {
 	fe := lib.FormatError(hash, msg)
 	c.JSON(http.StatusInternalServerError, gin.H{"error": fe.Error()})
+}
+
+func ResponseUnauthorizedMessage(c *gin.Context) {
+	c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 }

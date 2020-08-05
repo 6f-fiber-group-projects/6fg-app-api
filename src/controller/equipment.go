@@ -15,7 +15,7 @@ import (
 func GetEquipments(c *gin.Context) {
 	equips, err := repo.GetAllEquipments()
 	if err != nil {
-		ResponseErrorMessage(c, "#S3AB7J44", "No equipments")
+		ResponseServerErrorMessage(c, "#S3AB7J44", "No equipments")
 		return
 	}
 
@@ -31,13 +31,13 @@ func CreateEquipment(c *gin.Context) {
 	equip := reqenty.EquipmentRequest{}
 	err := c.ShouldBindJSON(&equip)
 	if err != nil {
-		ResponseErrorMessage(c, "#NN6O9248", "Bad request")
+		ResponseServerErrorMessage(c, "#NN6O9248", "Bad request")
 		return
 	}
 
 	_, err = repo.CreateEquipment(&equip)
 	if err != nil {
-		ResponseErrorMessage(c, "#SINM0QRJ", err.Error())
+		ResponseServerErrorMessage(c, "#SINM0QRJ", err.Error())
 		return
 	}
 
@@ -48,13 +48,13 @@ func CreateEquipment(c *gin.Context) {
 func GetEquipmentById(c *gin.Context) {
 	equipId, err := strconv.Atoi(c.Param("equipId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#V60J5UJK", "Equip id shoud be integer")
+		ResponseServerErrorMessage(c, "#V60J5UJK", "Equip id shoud be integer")
 		return
 	}
 
 	equip, err := repo.GetEquipmentById(equipId)
 	if err != nil {
-		ResponseErrorMessage(c, "#678EZ5VD", "No equipment found")
+		ResponseServerErrorMessage(c, "#678EZ5VD", "No equipment found")
 		return
 	}
 
@@ -64,21 +64,21 @@ func GetEquipmentById(c *gin.Context) {
 func UpdateEquipment(c *gin.Context) {
 	equipId, err := strconv.Atoi(c.Param("equipId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#", "Equip id shoud be integer")
+		ResponseServerErrorMessage(c, "#", "Equip id shoud be integer")
 		return
 	}
 
 	equip := reqenty.EquipmentUpdateRequest{}
 	err = c.ShouldBindJSON(&equip)
 	if err != nil {
-		ResponseErrorMessage(c, "#W0WAVEGS", "Bad request")
+		ResponseServerErrorMessage(c, "#W0WAVEGS", "Bad request")
 		return
 	}
 	equip.Id = equipId
 
 	_, err = repo.UpdateEquipment(&equip)
 	if err != nil {
-		ResponseErrorMessage(c, "#51IVOGXD", err.Error())
+		ResponseServerErrorMessage(c, "#51IVOGXD", err.Error())
 		return
 	}
 
@@ -88,13 +88,13 @@ func UpdateEquipment(c *gin.Context) {
 func DeleteEquipment(c *gin.Context) {
 	equipId, err := strconv.Atoi(c.Param("equipId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#V60J5UJK", "Equip id shoud be integer")
+		ResponseServerErrorMessage(c, "#V60J5UJK", "Equip id shoud be integer")
 		return
 	}
 
 	_, err = repo.DeleteEquipment(equipId)
 	if err != nil {
-		ResponseErrorMessage(c, "#AMAO79PX", err.Error())
+		ResponseServerErrorMessage(c, "#AMAO79PX", err.Error())
 		return
 	}
 
@@ -106,13 +106,13 @@ func DeleteEquipment(c *gin.Context) {
 func GetEquipmentQRcode(c *gin.Context) {
 	equipId, err := strconv.Atoi(c.Param("equipId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#68ON4S7N", "Equip id shoud be integer")
+		ResponseServerErrorMessage(c, "#68ON4S7N", "Equip id shoud be integer")
 		return
 	}
 
 	qr, err := bl.GenerateEquipmentQR(equipId)
 	if err != nil {
-		ResponseErrorMessage(c, "#UB3N0VYD", err.Error())
+		ResponseServerErrorMessage(c, "#UB3N0VYD", err.Error())
 		return
 	}
 
@@ -124,21 +124,21 @@ func GetEquipmentQRcode(c *gin.Context) {
 func UpdateEquipmentStatus(c *gin.Context) {
 	equipId, err := strconv.Atoi(c.Param("equipId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#", "Equip id shoud be integer")
+		ResponseServerErrorMessage(c, "#", "Equip id shoud be integer")
 		return
 	}
 
 	equipHistory := reqenty.EquipmentHistoryRequest{}
 	err = c.ShouldBindJSON(&equipHistory)
 	if err != nil {
-		ResponseErrorMessage(c, "#", "Bad request")
+		ResponseServerErrorMessage(c, "#", "Bad request")
 		return
 	}
 	equipHistory.EquipId = equipId
 
 	err = bl.UpdateEquipmentStatus(&equipHistory)
 	if err != nil {
-		ResponseErrorMessage(c, "#", err.Error())
+		ResponseServerErrorMessage(c, "#", err.Error())
 		return
 	}
 

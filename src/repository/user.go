@@ -1,10 +1,10 @@
 package repository
 
 import (
+	"fmt"
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	model "github.com/6f-fiber-group-projects/6fg-app-api/model"
-	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
@@ -67,8 +67,8 @@ func userReqToModel(u *reqenty.UserRequest) menty.User {
 		Name:         u.Name,
 		Email:        u.Email,
 		Password:     hash,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
 	}
 }
 
@@ -81,6 +81,6 @@ func userUpdateReqToModel(u *reqenty.UserUpdateRequest) menty.User {
 		Name:         u.Name,
 		Email:        u.Email,
 		Password:     hash,
-		UpdatedAt:   time.Now(),
+		UpdatedAt:    time.Now(),
 	}
 }

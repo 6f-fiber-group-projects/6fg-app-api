@@ -1,12 +1,13 @@
 package controller
 
 import (
+	bl "github.com/6f-fiber-group-projects/6fg-app-api/businessLogic"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
 	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
-	// "fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -18,14 +19,14 @@ import (
 
 // /user
 func GetUsers(c *gin.Context) {
-	users, err := repo.GetAllUsers()
+	users, err := bl.GetAllUsers(c)
 	if err != nil {
-		ResponseErrorMessage(c, "#S3AB7J44", "No user")
+		ResponseServerErrorMessage(c, "#S3AB7J44", err.Error())
 		return
 	}
 
 	formatedUsers := []resenty.UserResponse{}
-	for _, user := range users {
+	for _, user := range *users {
 		formatedUsers = append(formatedUsers, formatUserResponse(user))
 	}
 
@@ -36,13 +37,14 @@ func CreateUser(c *gin.Context) {
 	user := reqenty.UserRequest{}
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
-		ResponseErrorMessage(c, "#A3H884KU", "Bad request")
+		ResponseServerErrorMessage(c, "#A3H884KU", "Bad request")
 		return
 	}
+	user.Authority_id, _ = strconv.Atoi(os.Getenv("VIEWER_ID"))
 
 	_, err = repo.CreateUser(&user)
 	if err != nil {
-		ResponseErrorMessage(c, "#G9GSLGOH", err.Error())
+		ResponseServerErrorMessage(c, "#G9GSLGOH", err.Error())
 		return
 	}
 
@@ -53,37 +55,37 @@ func CreateUser(c *gin.Context) {
 func GetUserById(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#HQFJFHKK", "User id should be integer")
+		ResponseServerErrorMessage(c, "#HQFJFHKK", "User id should be integer")
 		return
 	}
 
-	user, err := repo.GetUserById(userId)
+	user, err := bl.GetUserById(c, userId)
 	if err != nil {
-		ResponseErrorMessage(c, "#COIO4KWD", "No user found")
+		ResponseServerErrorMessage(c, "#COIO4KWD", err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": formatUserResponse(user)})
+	c.JSON(http.StatusOK, gin.H{"message": formatUserResponse(*user)})
 }
 
 func UpdateUser(c *gin.Context) {
 	user := reqenty.UserUpdateRequest{}
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
-		ResponseErrorMessage(c, "#K3C1P0FT", "Bad request")
+		ResponseServerErrorMessage(c, "#K3C1P0FT", "Bad request")
 		return
 	}
 
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#257X17LY", "User id should be integer")
+		ResponseServerErrorMessage(c, "#257X17LY", "User id should be integer")
 		return
 	}
 	user.Id = userId
 
-	_, err = repo.UpdateUser(&user)
+	_, err = bl.UpdateUser(c, &user)
 	if err != nil {
-		ResponseErrorMessage(c, "#COIO4KWD", "No user found")
+		ResponseServerErrorMessage(c, "#COIO4KWD", err.Error())
 		return
 	}
 
@@ -93,13 +95,13 @@ func UpdateUser(c *gin.Context) {
 func DeleteUser(c *gin.Context) {
 	userId, err := strconv.Atoi(c.Param("userId"))
 	if err != nil {
-		ResponseErrorMessage(c, "#YFJ4Z6V9", "User id should be integer")
+		ResponseServerErrorMessage(c, "#YFJ4Z6V9", "User id should be integer")
 		return
 	}
 
-	_, err = repo.DeleteUser(userId)
+	_, err = bl.DeleteUser(c, userId)
 	if err != nil {
-		ResponseErrorMessage(c, "#6L2AO4MR", "No user found")
+		ResponseServerErrorMessage(c, "#6L2AO4MR", err.Error())
 		return
 	}
 
