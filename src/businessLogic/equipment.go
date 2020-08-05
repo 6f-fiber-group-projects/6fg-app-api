@@ -1,13 +1,67 @@
 package businessLogic
 
 import (
+	"fmt"
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
+	"github.com/6f-fiber-group-projects/6fg-app-api/lib"
 	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
-	"fmt"
+	"github.com/gin-gonic/gin"
+	"os"
 )
 
-func UpdateEquipmentStatus(r *reqenty.EquipmentHistoryRequest) error {
+func CreateEquipment(c *gin.Context, e *reqenty.EquipmentRequest) (*menty.Equipment, error) {
+	if !IsAdmin(c) {
+		return nil, fmt.Errorf("unauthorized")
+	}
+
+	equip, err := repo.CreateEquipment(e)
+	if err != nil {
+		return nil, err
+	}
+
+	return &equip, nil
+}
+
+func UpdateEquipment(c *gin.Context, e *reqenty.EquipmentUpdateRequest) (*menty.Equipment, error) {
+	if !IsAdmin(c) {
+		return nil, fmt.Errorf("unauthorized")
+	}
+
+	equip, err := repo.UpdateEquipment(e)
+	if err != nil {
+		return nil, err
+	}
+
+	return &equip, nil
+}
+
+func DeleteEquipment(c *gin.Context, equipId int) (*menty.Equipment, error) {
+	if !IsAdmin(c) {
+		return nil, fmt.Errorf("unauthorized")
+	}
+
+	equip, err := repo.DeleteEquipment(equipId)
+	if err != nil {
+		return nil, err
+	}
+
+	return &equip, nil
+}
+
+func GenerateEquipmentQR(equipId int) ([]byte, error) {
+	qr, err := lib.GenerateQR(fmt.Sprintf("%s/equipment/%d", os.Getenv("DOMEIN"), equipId))
+	if err != nil {
+		return nil, fmt.Errorf("%s", err)
+	}
+	return qr, nil
+}
+
+func UpdateEquipmentStatus(c *gin.Context, r *reqenty.EquipmentHistoryRequest) error {
+	if !IsAdmin(c) && !IsSameUser(c, r.UserId) {
+		return fmt.Errorf("unauthorized")
+	}
+
 	// validate user
 	_, err := repo.GetUserById(r.UserId)
 	if err != nil {

@@ -35,7 +35,7 @@ func CreateEquipment(c *gin.Context) {
 		return
 	}
 
-	_, err = repo.CreateEquipment(&equip)
+	_, err = bl.CreateEquipment(c, &equip)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#SINM0QRJ", err.Error())
 		return
@@ -76,7 +76,7 @@ func UpdateEquipment(c *gin.Context) {
 	}
 	equip.Id = equipId
 
-	_, err = repo.UpdateEquipment(&equip)
+	_, err = bl.UpdateEquipment(c, &equip)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#51IVOGXD", err.Error())
 		return
@@ -92,7 +92,7 @@ func DeleteEquipment(c *gin.Context) {
 		return
 	}
 
-	_, err = repo.DeleteEquipment(equipId)
+	_, err = bl.DeleteEquipment(c, equipId)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#AMAO79PX", err.Error())
 		return
@@ -136,7 +136,7 @@ func UpdateEquipmentStatus(c *gin.Context) {
 	}
 	equipHistory.EquipId = equipId
 
-	err = bl.UpdateEquipmentStatus(&equipHistory)
+	err = bl.UpdateEquipmentStatus(c, &equipHistory)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#", err.Error())
 		return
