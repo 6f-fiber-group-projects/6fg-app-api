@@ -13,5 +13,6 @@ type EquipmentReservationUpdateRequest struct {
 }
 
 type EquipmentReservationDeleteRequest struct {
-	Id int `json:"id"`
+	Id     int `json:"id"`
+	UserId int `json:"user_id" binding:"required"`
 }

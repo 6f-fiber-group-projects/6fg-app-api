@@ -25,7 +25,7 @@ func UpdateEquipmentReservation(c *gin.Context) {
 	}
 	rsvn.Id = rsvnId
 
-	_, err = repo.UpdateEquipmentReservation(&rsvn)
+	_, err = bl.UpdateEquipmentReservation(c, &rsvn)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#WVNAN2JV", err.Error())
 		return
@@ -41,7 +41,15 @@ func DeleteEquipmentReservation(c *gin.Context) {
 		return
 	}
 
-	_, err = repo.DeleteEquipmentReservation(rsvnId)
+	rsvn := reqenty.EquipmentReservationDeleteRequest{}
+	err = c.ShouldBindJSON(&rsvn)
+	if err != nil {
+		ResponseServerErrorMessage(c, "#", "Bad request")
+		return
+	}
+	rsvn.Id = rsvnId
+
+	_, err = bl.DeleteEquipmentReservation(c, &rsvn)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#37MWJFMZ", err.Error())
 		return

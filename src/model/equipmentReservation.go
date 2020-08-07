@@ -13,6 +13,15 @@ func GetEquipmentReservationById(rsvnId int) (menty.EquipmentReservation, error)
 	return rsvn, result.Error
 }
 
+func GetEquipmentReservationByEquipId(equipId int) ([]menty.EquipmentReservation, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	rsvn := []menty.EquipmentReservation{}
+	result := db.Order("id desc").Find(&rsvn, "equip_id=?", equipId).Limit(100)
+	return rsvn, result.Error
+}
+
 func CreateEquipmentReservation(rsvn *menty.EquipmentReservation) (menty.EquipmentReservation, error) {
 	db := gormConnect()
 	defer db.Close()

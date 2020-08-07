@@ -1,10 +1,10 @@
 package repository
 
 import (
+	"fmt"
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	"github.com/6f-fiber-group-projects/6fg-app-api/model"
-	"fmt"
 	"time"
 )
 
@@ -16,6 +16,14 @@ func GetEquipmentReservationById(id int) (menty.EquipmentReservation, error) {
 		return menty.EquipmentReservation{}, err
 	}
 	return rsvn, nil
+}
+
+func GetEquipmentReservationByEquipId(equipId int) ([]menty.EquipmentReservation, error) {
+	rsvns, err := model.GetEquipmentReservationByEquipId(equipId)
+	if err != nil {
+		return nil, err
+	}
+	return rsvns, nil
 }
 
 func CreateEquipmentReservation(r *reqenty.EquipmentReservationRequest) (menty.EquipmentReservation, error) {
@@ -61,7 +69,7 @@ func DeleteEquipmentReservation(id int) (menty.EquipmentReservation, error) {
 }
 
 func equipRsvnReqToModel(r *reqenty.EquipmentReservationRequest) (menty.EquipmentReservation, error) {
-	startDate, endDate, err := parseTime(r.StartDate, r.EndDate)
+	startDate, endDate, err := ParseTime(r.StartDate, r.EndDate)
 	if err != nil {
 		return menty.EquipmentReservation{}, err
 	}
@@ -76,7 +84,7 @@ func equipRsvnReqToModel(r *reqenty.EquipmentReservationRequest) (menty.Equipmen
 }
 
 func equipRsvnUpdateReqToModel(r *reqenty.EquipmentReservationUpdateRequest) (menty.EquipmentReservation, error) {
-	startDate, endDate, err := parseTime(r.StartDate, r.EndDate)
+	startDate, endDate, err := ParseTime(r.StartDate, r.EndDate)
 	if err != nil {
 		return menty.EquipmentReservation{}, err
 	}
@@ -90,7 +98,7 @@ func equipRsvnUpdateReqToModel(r *reqenty.EquipmentReservationUpdateRequest) (me
 	}, nil
 }
 
-func parseTime(st, ed string) (time.Time, time.Time, error) {
+func ParseTime(st, ed string) (time.Time, time.Time, error) {
 	parsedSt, err := time.Parse(TIME_LAYOUT, st)
 	if err != nil {
 		return time.Time{}, time.Time{}, fmt.Errorf("%s", err)
