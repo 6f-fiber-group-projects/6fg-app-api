@@ -24,7 +24,7 @@ func BasicAuthenticate(c *gin.Context) {
 
 	bl.CreateSession(c, &user)
 
-	c.JSON(http.StatusAccepted, gin.H{"message": "User logined successfully"})
+	c.JSON(http.StatusAccepted, gin.H{"message": formatUserResponse(user)})
 }
 
 func Logout(c *gin.Context) {
