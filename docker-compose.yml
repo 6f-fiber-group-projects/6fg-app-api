@@ -9,14 +9,14 @@ services:
     volumes:
       - ./src:/go/src/github.com/6f-fiber-group-projects/6fg-app-api
     ports: 
-      - 8080:8080
+      - 8000:8080
     environment:
       DB_USER: root
       DB_PASSWORD: root
       DB_NAME: api
       DB_PORT: 5432
       DB_HOST: db
-      DOMEIN: http://localhost:8080
+      ALLOW_ORIGIN: http://localhost:8080
       ADMIN_ID: 1
       VIEWER_ID: 3
 
