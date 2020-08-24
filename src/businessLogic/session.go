@@ -8,16 +8,16 @@ import (
 )
 
 func CreateSession(c *gin.Context, u *menty.User) {
-	c.SetSameSite(http.SameSiteNoneMode)
-
 	session := sessions.Default(c)
 	session.Set("userId", u.Id)
 	session.Set("authId", u.Authority_id)
 	session.Set("isLogin", true)
 
 	options := sessions.Options{
-		MaxAge: 60 * 60 * 24,
-		Path:   "/",
+		MaxAge:   60 * 60 * 24,
+		Path:     "/",
+		Secure:   true,
+		SameSite: http.SameSiteNoneMode,
 	}
 	session.Options(options)
 
