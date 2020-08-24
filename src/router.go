@@ -16,6 +16,7 @@ func DefineRoutes() *gin.Engine {
 	// CORS
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{os.Getenv("ALLOW_ORIGIN")}
+	config.AllowCredentials = true
 	router.Use(cors.New(config))
 
 	// session
