@@ -4,6 +4,7 @@ import (
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func CreateSession(c *gin.Context, u *menty.User) {
@@ -17,6 +18,7 @@ func CreateSession(c *gin.Context, u *menty.User) {
 		Path:   "/",
 	}
 	session.Options(options)
+	c.SetSameSite(http.SameSiteNoneMode)
 
 	session.Save()
 }
