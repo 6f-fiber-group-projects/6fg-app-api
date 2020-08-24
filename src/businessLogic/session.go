@@ -8,6 +8,8 @@ import (
 )
 
 func CreateSession(c *gin.Context, u *menty.User) {
+	c.SetSameSite(http.SameSiteNoneMode)
+
 	session := sessions.Default(c)
 	session.Set("userId", u.Id)
 	session.Set("authId", u.Authority_id)
@@ -18,7 +20,6 @@ func CreateSession(c *gin.Context, u *menty.User) {
 		Path:   "/",
 	}
 	session.Options(options)
-	c.SetSameSite(http.SameSiteNoneMode)
 
 	session.Save()
 }
