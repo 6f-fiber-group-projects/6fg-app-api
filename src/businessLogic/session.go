@@ -5,6 +5,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 )
 
 func CreateSession(c *gin.Context, u *menty.User) {
@@ -14,10 +15,13 @@ func CreateSession(c *gin.Context, u *menty.User) {
 	session.Set("isLogin", true)
 
 	options := sessions.Options{
-		MaxAge:   60 * 60 * 24,
-		Path:     "/",
-		Secure:   true,
-		SameSite: http.SameSiteNoneMode,
+		MaxAge: 60 * 60 * 24,
+		Path:   "/",
+	}
+	if env := os.Getenv("ENV"); env == "prod" {
+		options.Domain = os.Getenv("SUB_DOMAIN")
+		options.Secure = true
+		options.SameSite = http.SameSiteNoneMode
 	}
 	session.Options(options)
 
