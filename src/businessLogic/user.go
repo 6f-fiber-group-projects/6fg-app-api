@@ -9,10 +9,6 @@ import (
 )
 
 func GetAllUsers(c *gin.Context) (*[]menty.User, error) {
-	if !IsAdmin(c) {
-		return nil, fmt.Errorf("unauthorized")
-	}
-
 	users, err := repo.GetAllUsers()
 	if err != nil {
 		return nil, fmt.Errorf("No user")

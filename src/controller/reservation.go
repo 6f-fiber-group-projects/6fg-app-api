@@ -10,6 +10,22 @@ import (
 	"strconv"
 )
 
+func GetEquipmentReservationByEquipId(c *gin.Context) {
+	equipId, err := strconv.Atoi(c.Query("equipId"))
+	if err != nil {
+		ResponseServerErrorMessage(c, "#", "Reservation id shoud be integer")
+		return
+	}
+
+	rsvns, err := repo.GetEquipmentReservationByEquipId(equipId)
+	if err != nil {
+		ResponseServerErrorMessage(c, "#678EZ5VD", err.Error())
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{"message": rsvns})
+}
+
 func UpdateEquipmentReservation(c *gin.Context) {
 	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
 	if err != nil {
@@ -50,7 +66,7 @@ func DeleteEquipmentReservation(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{})
 }
 
-func GetEquipmentReservation(c *gin.Context) {
+func GetEquipmentReservationById(c *gin.Context) {
 	rsvnId, err := strconv.Atoi(c.Param("rsvnId"))
 	if err != nil {
 		ResponseServerErrorMessage(c, "#OHGXQ7XW", "Reservation id shoud be integer")

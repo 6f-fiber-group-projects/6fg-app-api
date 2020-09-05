@@ -1,10 +1,10 @@
 package repository
 
 import (
+	"fmt"
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	"github.com/6f-fiber-group-projects/6fg-app-api/model"
-	"fmt"
 	"time"
 )
 
@@ -16,6 +16,14 @@ func GetEquipmentReservationById(id int) (menty.EquipmentReservation, error) {
 		return menty.EquipmentReservation{}, err
 	}
 	return rsvn, nil
+}
+
+func GetEquipmentReservationByEquipId(equipId int) ([]menty.EquipmentReservation, error) {
+	rsvns, err := model.GetEquipmentReservationByEquipId(equipId)
+	if err != nil {
+		return nil, err
+	}
+	return rsvns, nil
 }
 
 func CreateEquipmentReservation(r *reqenty.EquipmentReservationRequest) (menty.EquipmentReservation, error) {
