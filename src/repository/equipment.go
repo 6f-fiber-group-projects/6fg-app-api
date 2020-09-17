@@ -30,7 +30,7 @@ func CreateEquipment(e *reqenty.EquipmentRequest) (menty.Equipment, error) {
 	if err != nil {
 		return menty.Equipment{}, fmt.Errorf("%s", err)
 	}
-	return menty.Equipment{}, nil
+	return equip, nil
 }
 
 func UpdateEquipment(e *reqenty.EquipmentUpdateRequest) (menty.Equipment, error) {

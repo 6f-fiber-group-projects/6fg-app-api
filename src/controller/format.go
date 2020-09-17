@@ -19,9 +19,8 @@ func formatUserResponse(u menty.User) resenty.UserResponse {
 // equipment
 func formatEquipmentResponse(e menty.Equipment) resenty.EquipmentResponse {
 	return resenty.EquipmentResponse{
-		Id:     e.Id,
-		Name:   e.Name,
-		Status: *e.Status,
+		Id:   e.Id,
+		Name: e.Name,
 	}
 }
 

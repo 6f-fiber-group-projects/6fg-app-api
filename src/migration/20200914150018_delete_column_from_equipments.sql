@@ -8,4 +8,4 @@ ALTER TABLE equipments
 -- SQL in this section is executed when the migration is rolled back.
 
 ALTER TABLE equipments
-  ADD COLUMN status;
+  ADD status integer;
