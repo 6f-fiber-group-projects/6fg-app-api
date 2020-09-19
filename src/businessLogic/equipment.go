@@ -29,6 +29,18 @@ func GetEquipments(c *gin.Context) (*[]resenty.EquipmentResponse, error) {
 	return &equipRes, nil
 }
 
+func GetEquipmentById(c *gin.Context, id int) (*resenty.EquipmentResponse, error) {
+	equip, err := repo.GetEquipmentById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	equipStatus, _ := repo.GetEquipmentStatusByEquipId(equip.Id)
+	equipRes := formatEquipmentResponse(&equip, &equipStatus)
+
+	return &equipRes, nil
+}
+
 func CreateEquipment(c *gin.Context, e *reqenty.EquipmentRequest) (*menty.Equipment, error) {
 	if !IsAdmin(c) {
 		return nil, fmt.Errorf("unauthorized")

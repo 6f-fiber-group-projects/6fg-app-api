@@ -3,7 +3,6 @@ package controller
 import (
 	bl "github.com/6f-fiber-group-projects/6fg-app-api/businessLogic"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
-	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
 	// "fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -46,7 +45,7 @@ func GetEquipmentById(c *gin.Context) {
 		return
 	}
 
-	equip, err := repo.GetEquipmentById(equipId)
+	equip, err := bl.GetEquipmentById(c, equipId)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#678EZ5VD", "No equipment found")
 		return
