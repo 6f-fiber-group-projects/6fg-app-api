@@ -3,7 +3,6 @@ package controller
 import (
 	bl "github.com/6f-fiber-group-projects/6fg-app-api/businessLogic"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
-	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
 	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
 	// "fmt"
 	"github.com/gin-gonic/gin"
@@ -13,18 +12,13 @@ import (
 
 // equipment
 func GetEquipments(c *gin.Context) {
-	equips, err := repo.GetAllEquipments()
+	equips, err := bl.GetEquipments(c)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#S3AB7J44", "No equipments")
 		return
 	}
 
-	formatedEquipments := []resenty.EquipmentResponse{}
-	for _, equip := range equips {
-		formatedEquipments = append(formatedEquipments, formatEquipmentResponse(equip))
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": formatedEquipments})
+	c.JSON(http.StatusOK, gin.H{"message": equips})
 }
 
 func CreateEquipment(c *gin.Context) {

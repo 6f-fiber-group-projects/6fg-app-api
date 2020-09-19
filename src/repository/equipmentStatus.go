@@ -3,23 +3,23 @@ package repository
 import (
 	"fmt"
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
-	// reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
+	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	model "github.com/6f-fiber-group-projects/6fg-app-api/model"
 	"time"
 )
 
-// func GetEquipmentStatusByEquipId(equipId int) (menty.EquipmentStatus, error) {
-// 	equipStauts, err := model.GetEquipmentStatusByEquipId(equipId)
-// 	if err != nil {
-// 		return menty.EquipmentStatus{}, fmt.Errorf("%s", err)
-// 	}
+func GetEquipmentStatusByEquipId(equipId int) (menty.EquipmentStatus, error) {
+	equipStauts, err := model.GetEquipmentStatusByEquipId(equipId)
+	if err != nil {
+		return menty.EquipmentStatus{}, fmt.Errorf("%s", err)
+	}
 
-// 	if result := equipStauts.NilTozero(); result != nil {
-// 		equipStauts = *result
-// 	}
+	if result := equipStauts.NilTozero(); result != nil {
+		equipStauts = *result
+	}
 
-// 	return equipStauts, nil
-// }
+	return equipStauts, nil
+}
 
 func CreateEquipmentStatus(equipId int) (menty.EquipmentStatus, error) {
 	zero := 0
@@ -37,15 +37,19 @@ func CreateEquipmentStatus(equipId int) (menty.EquipmentStatus, error) {
 	return equipStatus, nil
 }
 
-// func UpdateEquipment(e *reqenty.EquipmentUpdateRequest) (menty.EquipmentStauts, error) {
-// 	equip := equipUpdateReqToModel(e)
-
-// 	_, err := model.UpdateEquip(&equip)
-// 	if err != nil {
-// 		return menty.Equipment{}, fmt.Errorf("%s", err)
-// 	}
-// 	return menty.Equipment{}, nil
-// }
+func UpdateEquipmentStatus(e *reqenty.EquipmentStatusUpdateRequest) (menty.EquipmentStatus, error) {
+	equipStatus := menty.EquipmentStatus{
+		EquipId:   e.EquipId,
+		Status:    e.Status,
+		UserId:    e.UserId,
+		UpdatedAt: time.Now(),
+	}
+	equipStatus, err := model.UpdateEquipStatus(&equipStatus)
+	if err != nil {
+		return menty.EquipmentStatus{}, fmt.Errorf("%s", err)
+	}
+	return equipStatus, nil
+}
 
 // func equipReqToModel(e *reqenty.EquipmentRequest) menty.Equipment {
 // 	zero := 0

@@ -16,14 +16,6 @@ func formatUserResponse(u menty.User) resenty.UserResponse {
 	}
 }
 
-// equipment
-func formatEquipmentResponse(e menty.Equipment) resenty.EquipmentResponse {
-	return resenty.EquipmentResponse{
-		Id:   e.Id,
-		Name: e.Name,
-	}
-}
-
 //authority
 func formatAuthorityResponse(a menty.Authority) resenty.AuthorityResponse {
 	return resenty.AuthorityResponse{
