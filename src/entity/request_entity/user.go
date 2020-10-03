@@ -1,7 +1,7 @@
 package request_entity
 
 type UserRequest struct {
-	Authority_id int    `json:"auth_id" binding:"required"`
+	Authority_id int    `json:"auth_id"`
 	Google_id    *int   `json:"google_id default=nil"`
 	Name         string `json:"name" binding:"required"`
 	Email        string `json:"email" binding:"required"`
@@ -9,7 +9,7 @@ type UserRequest struct {
 }
 
 type UserUpdateRequest struct {
-	Authority_id int    `json:"auth_id"`
+	Authority_id int    `json:"authId"`
 	Google_id    *int   `json:"google_id default=nil"`
 	Name         string `json:"name"`
 	Email        string `json:"email"`
