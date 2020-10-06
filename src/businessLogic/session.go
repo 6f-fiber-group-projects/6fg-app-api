@@ -20,7 +20,7 @@ func CreateSession(c *gin.Context, u *menty.User) {
 	}
 	if env := os.Getenv("ENV"); env == "prod" {
 		options.Domain = os.Getenv("SUB_DOMAIN")
-		// options.Secure = true
+		options.Secure = true
 		options.SameSite = http.SameSiteNoneMode
 	}
 	session.Options(options)
