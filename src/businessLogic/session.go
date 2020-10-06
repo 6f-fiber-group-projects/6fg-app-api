@@ -16,11 +16,11 @@ func CreateSession(c *gin.Context, u *menty.User) {
 
 	options := sessions.Options{
 		MaxAge: 60 * 60 * 24,
-		// Path:   "/",
+		Path:   "/",
 	}
 	if env := os.Getenv("ENV"); env == "prod" {
 		options.Domain = os.Getenv("SUB_DOMAIN")
-		options.Secure = true
+		// options.Secure = true
 		options.SameSite = http.SameSiteNoneMode
 	}
 	session.Options(options)
@@ -34,7 +34,7 @@ func KillSession(c *gin.Context) {
 
 	options := sessions.Options{
 		MaxAge: -1,
-		// Path:   "/",
+		Path:   "/",
 	}
 	session.Options(options)
 	session.Save()
