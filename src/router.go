@@ -16,6 +16,13 @@ func DefineRoutes() *gin.Engine {
 	// CORS
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{os.Getenv("ALLOW_ORIGIN")}
+	config.AllowMethods = []string{
+		"GET",
+		"POST",
+		"PUT",
+		"DELETE",
+		"OPTIONS",
+	}
 	config.AllowCredentials = true
 	// config.AllowHeaders = []string{"Set-Cookie"}
 	router.Use(cors.New(config))
