@@ -26,7 +26,7 @@ func DefineRoutes() *gin.Engine {
 	router.Use(sessionCheck())
 
 	// http://shinriyo.hateblo.jp/entry/2017/09/18/gin%E3%81%A7Group%E5%8C%96%E3%81%97%E3%81%9F%E3%83%AB%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0
-	user := router.Group("user")
+	user := router.Group("api/user")
 	{
 		user.GET("", controller.GetUsers)
 		user.POST("", controller.CreateUser)
@@ -35,18 +35,18 @@ func DefineRoutes() *gin.Engine {
 		user.DELETE("/:userId", controller.DeleteUser)
 	}
 
-	authority := router.Group("authority")
+	authority := router.Group("api/authority")
 	{
 		authority.GET("", controller.GetAuthorities)
 	}
 
-	auth := router.Group("auth")
+	auth := router.Group("api/auth")
 	{
 		auth.POST("", controller.BasicAuthenticate)
 		auth.GET("/logout", controller.Logout)
 	}
 
-	equip := router.Group("equipment")
+	equip := router.Group("api/equipment")
 	{
 		equip.GET("", controller.GetEquipments)
 		equip.POST("", controller.CreateEquipment)
@@ -57,7 +57,7 @@ func DefineRoutes() *gin.Engine {
 		equip.POST("/:equipId/status", controller.UpdateEquipmentStatus)
 	}
 
-	rsvn := router.Group("reservation")
+	rsvn := router.Group("api/reservation")
 	{
 		rsvn.GET("equipment", controller.GetEquipmentReservationByEquipId)
 		rsvn.POST("equipment", controller.CreateEquipmentReservation)
@@ -73,7 +73,7 @@ func sessionCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		isLogin := session.Get("isLogin")
-		if isLogin != true && c.FullPath() != "/auth" {
+		if isLogin != true && c.FullPath() != "api/auth" {
 			controller.ResponseUnauthorizedMessage(c)
 			c.Abort()
 		}
