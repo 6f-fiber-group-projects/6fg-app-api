@@ -8,16 +8,18 @@ import (
 )
 
 func gormConnect() *gorm.DB {
-	HOST := os.Getenv("DB_HOST")
-	PORT := os.Getenv("DB_PORT")
-	USER := os.Getenv("DB_USER")
-	PASS := os.Getenv("DB_PASSWORD")
-	DBNAME := os.Getenv("DB_NAME")
+	DBURL := os.Getenv("DATABASE_URL")
+	if len(DBURL) == 0 {
+		HOST := os.Getenv("DB_HOST")
+		PORT := os.Getenv("DB_PORT")
+		USER := os.Getenv("DB_USER")
+		PASS := os.Getenv("DB_PASSWORD")
+		DBNAME := os.Getenv("DB_NAME")
+		DBURL = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", HOST, PORT, USER, DBNAME, PASS)
+	}
 
 	DBMS := "postgres"
-	CONNECT := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", HOST, PORT, USER, DBNAME, PASS)
-
-	db, err := gorm.Open(DBMS, CONNECT)
+	db, err := gorm.Open(DBMS, DBURL)
 
 	if err != nil {
 		panic(err.Error())
