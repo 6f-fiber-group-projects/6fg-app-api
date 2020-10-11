@@ -73,7 +73,7 @@ func sessionCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		isLogin := session.Get("isLogin")
-		if isLogin != true && c.FullPath() != "api/auth" {
+		if isLogin != true && c.FullPath() != "/api/auth" {
 			controller.ResponseUnauthorizedMessage(c)
 			c.Abort()
 		}
