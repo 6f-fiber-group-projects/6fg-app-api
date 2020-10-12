@@ -15,8 +15,9 @@ func CreateSession(c *gin.Context, u *menty.User) {
 	session.Set("isLogin", true)
 
 	options := sessions.Options{
-		MaxAge: 60 * 60 * 24,
-		Path:   "/",
+		MaxAge:   60 * 60 * 24,
+		Path:     "/",
+		HttpOnly: true,
 	}
 	if env := os.Getenv("ENV"); env == "prod" {
 		options.Domain = os.Getenv("SUB_DOMAIN")
@@ -24,7 +25,6 @@ func CreateSession(c *gin.Context, u *menty.User) {
 		options.SameSite = http.SameSiteNoneMode
 	}
 	session.Options(options)
-
 	session.Save()
 }
 
