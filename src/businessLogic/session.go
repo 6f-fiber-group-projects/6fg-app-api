@@ -19,7 +19,6 @@ func CreateSession(c *gin.Context, u *menty.User) {
 		Path:   "/",
 	}
 	if env := os.Getenv("ENV"); env == "prod" {
-		// options.Domain = os.Getenv("SUB_DOMAIN")
 		options.Secure = true
 		options.SameSite = http.SameSiteNoneMode
 	}
