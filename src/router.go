@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/6f-fiber-group-projects/6fg-app-controller"
+	"github.com/6f-fiber-group-projects/6fg-app-api/controller"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -15,7 +15,7 @@ func DefineRoutes() *gin.Engine {
 	// middle ware
 	// CORS
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{os.Getenv("ALLOW_ORIGIN")}
+	// config.AllowOrigins = []string{os.Getenv("ALLOW_ORIGIN")}
 	config.AllowCredentials = true
 	// config.AllowHeaders = []string{"Set-Cookie"}
 	router.Use(cors.New(config))
