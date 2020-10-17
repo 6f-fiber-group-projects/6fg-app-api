@@ -13,6 +13,6 @@ type UserUpdateRequest struct {
 	Google_id    *int   `json:"google_id default=nil"`
 	Name         string `json:"name"`
 	Email        string `json:"email"`
-	Password     string `json:"password""`
+	Password     string `json:"password"`
 	Id           int    `json:"id"`
 }
