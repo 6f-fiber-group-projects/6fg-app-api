@@ -89,7 +89,7 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{})
+	c.JSON(http.StatusAccepted, gin.H{"message": user})
 }
 
 func DeleteUser(c *gin.Context) {
