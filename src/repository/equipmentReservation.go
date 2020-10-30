@@ -10,6 +10,14 @@ import (
 
 const TIME_LAYOUT = time.RFC3339Nano
 
+func GetEquipmentReservation() ([]menty.EquipmentReservation, error) {
+	rsvns, err := model.GetEquipmentReservation()
+	if err != nil {
+		return nil, err
+	}
+	return rsvns, nil
+}
+
 func GetEquipmentReservationById(id int) (menty.EquipmentReservation, error) {
 	rsvn, err := model.GetEquipmentReservationById(id)
 	if err != nil {

@@ -10,6 +10,16 @@ import (
 	"strconv"
 )
 
+func GetEquipmentReservation(c *gin.Context) {
+	rsvns, err := repo.GetEquipmentReservation()
+	if err != nil {
+		ResponseServerErrorMessage(c, "#", err.Error())
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{"message": rsvns})
+}
+
 func GetEquipmentReservationByEquipId(c *gin.Context) {
 	equipId, err := strconv.Atoi(c.Query("equipId"))
 	if err != nil {

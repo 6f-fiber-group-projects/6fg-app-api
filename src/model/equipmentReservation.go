@@ -4,6 +4,15 @@ import (
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 )
 
+func GetEquipmentReservation() ([]menty.EquipmentReservation, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	rsvns := []menty.EquipmentReservation{}
+	result := db.Find(&rsvns)
+	return rsvns, result.Error
+}
+
 func GetEquipmentReservationById(rsvnId int) (menty.EquipmentReservation, error) {
 	db := gormConnect()
 	defer db.Close()
