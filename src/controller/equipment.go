@@ -94,24 +94,6 @@ func DeleteEquipment(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{})
 }
 
-// equipment/:equipId/qrcode
-
-func GetEquipmentQRcode(c *gin.Context) {
-	equipId, err := strconv.Atoi(c.Param("equipId"))
-	if err != nil {
-		ResponseServerErrorMessage(c, "#68ON4S7N", "Equip id shoud be integer")
-		return
-	}
-
-	qr, err := bl.GenerateEquipmentQR(equipId)
-	if err != nil {
-		ResponseServerErrorMessage(c, "#UB3N0VYD", err.Error())
-		return
-	}
-
-	c.Data(http.StatusOK, "image/png", qr)
-}
-
 // equipment/:equipId/status
 
 func UpdateEquipmentStatus(c *gin.Context) {
