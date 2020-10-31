@@ -53,7 +53,6 @@ func DefineRoutes() *gin.Engine {
 		equip.GET("/:equipId", controller.GetEquipmentById)
 		equip.PUT("/:equipId", controller.UpdateEquipment)
 		equip.DELETE("/:equipId", controller.DeleteEquipment)
-		equip.GET("/:equipId/qrcode", controller.GetEquipmentQRcode)
 		equip.POST("/:equipId/status", controller.UpdateEquipmentStatus)
 	}
 

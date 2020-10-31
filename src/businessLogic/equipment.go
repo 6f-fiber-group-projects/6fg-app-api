@@ -5,10 +5,8 @@ import (
 	menty "github.com/6f-fiber-group-projects/6fg-app-api/entity/model_entity"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	resenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/response_entity"
-	"github.com/6f-fiber-group-projects/6fg-app-api/lib"
 	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
 	"github.com/gin-gonic/gin"
-	"os"
 )
 
 func GetEquipments(c *gin.Context) (*[]resenty.EquipmentResponse, error) {
@@ -83,14 +81,6 @@ func DeleteEquipment(c *gin.Context, equipId int) (*menty.Equipment, error) {
 	}
 
 	return &equip, nil
-}
-
-func GenerateEquipmentQR(equipId int) ([]byte, error) {
-	qr, err := lib.GenerateQR(fmt.Sprintf("%s/equipment/%d", os.Getenv("DOMEIN"), equipId))
-	if err != nil {
-		return nil, fmt.Errorf("%s", err)
-	}
-	return qr, nil
 }
 
 func UpdateEquipmentStatus(c *gin.Context, r *reqenty.EquipmentHistoryRequest) error {
