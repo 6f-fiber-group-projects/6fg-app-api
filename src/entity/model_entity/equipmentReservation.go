@@ -7,6 +7,7 @@ import (
 type EquipmentReservation struct {
 	Id        int
 	EquipId   int
+	GroupId   string
 	UserId    int
 	StartDate time.Time
 	EndDate   time.Time

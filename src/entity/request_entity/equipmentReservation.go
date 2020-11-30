@@ -1,8 +1,9 @@
 package request_entity
 
 type EquipmentReservationRequest struct {
-	EquipId   int    `json:"equipId" binding:"required"`
-	UserId    int    `json:"userId" binding:"required"`
+	EquipId   int `json:"equipId" binding:"required"`
+	UserId    int `json:"userId" binding:"required"`
+	GroupId   string
 	StartDate string `json:"startDate" binding:"required"`
 	EndDate   string `json:"endDate" binding:"required"`
 }
