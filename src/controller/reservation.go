@@ -4,7 +4,6 @@ import (
 	bl "github.com/6f-fiber-group-projects/6fg-app-api/businessLogic"
 	reqenty "github.com/6f-fiber-group-projects/6fg-app-api/entity/request_entity"
 	repo "github.com/6f-fiber-group-projects/6fg-app-api/repository"
-	// "fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -93,7 +92,7 @@ func GetEquipmentReservationById(c *gin.Context) {
 }
 
 func CreateEquipmentReservation(c *gin.Context) {
-	rsvn := reqenty.EquipmentReservationRequest{}
+	rsvn := []reqenty.EquipmentReservationRequest{}
 	err := c.ShouldBindJSON(&rsvn)
 	if err != nil {
 		ResponseServerErrorMessage(c, "#UB3N0VYD", err.Error())

@@ -84,6 +84,7 @@ func equipRsvnReqToModel(r *reqenty.EquipmentReservationRequest) (menty.Equipmen
 	return menty.EquipmentReservation{
 		EquipId:   r.EquipId,
 		UserId:    r.UserId,
+		GroupId:   r.GroupId,
 		StartDate: startDate,
 		EndDate:   endDate,
 		CreatedAt: time.Now(),
@@ -100,6 +101,7 @@ func equipRsvnUpdateReqToModel(r *reqenty.EquipmentReservationUpdateRequest) (me
 		Id:        r.Id,
 		EquipId:   r.EquipId,
 		UserId:    r.UserId,
+		GroupId:   r.GroupId,
 		StartDate: startDate,
 		EndDate:   endDate,
 		UpdatedAt: time.Now(),
