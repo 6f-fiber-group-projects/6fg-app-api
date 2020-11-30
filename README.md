@@ -5,3 +5,6 @@
   ```
   goose postgres "host=db user=root password=root dbname=api sslmode=disable" up
   ```
+  ```
+  heroku run cd app/migration && goose up
+  ```
